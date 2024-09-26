@@ -1,24 +1,36 @@
-name: Test
+name:Test
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
-  build:
+  selenium:
     runs-on: ubuntu-latest
+    
+    services:
+      chrome:
+        image: selenium/standalone-chrome
+        ports:
+          - 4444:4444
+        options: >-
+          --shm-size=2g
 
     steps:
-    - name: Checkout code
+    - name: Check out code
       uses: actions/checkout@v2
 
-    - name: Set up JDK
-      uses: actions/setup-java@v1
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
       with:
-        java-version: '11'
+        node-version: '14'
 
     - name: Install dependencies
-      run: |
-        
+      run: npm install
 
-    - name: Run Selenium Tests
-      run: |
+    - name: Run Selenium script
+      run: node busquedaDatacrm.js
+
        
